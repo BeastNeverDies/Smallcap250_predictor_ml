@@ -1,0 +1,36 @@
+name: Daily Stock Scan
+
+on:
+  schedule:
+    # 20:05 UTC = 1:35 AM IST
+    - cron: '5 20 * * *'
+  workflow_dispatch:
+
+jobs:
+  run-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    - name: Run Daily Scan
+      env:
+        # HARDCODED CREDENTIALS (As requested)
+        # WARNING: Passwords are visible in this file. Keep this repository PRIVATE.
+        GREENAPI_INSTANCE_ID: "7105430425"
+        GREENAPI_API_TOKEN: "f103711705aa4a6d9dba3ba0152191c4f2a80bd818b44bc39d"
+        GREENAPI_TARGET_PHONE: "918618136168"
+        GREENAPI_HOST: "7105.api.greenapi.com"
+      run: |
+        python run_daily.py

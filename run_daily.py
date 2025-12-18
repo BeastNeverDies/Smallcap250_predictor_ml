@@ -28,6 +28,12 @@ def run_daily():
     print("\nTOP PICKS TODAY:")
     print_colored_df(df[["rank", "symbol", "confidence", "pattern", "rule_score", "financials", "trailing_sl"]])
 
+    # WhatsApp Notification
+    from utils.notifications import send_whatsapp_message, format_daily_summary
+    print("\n--- Sending Notification ---")
+    msg = format_daily_summary(df)
+    send_whatsapp_message(msg)
+
 
 if __name__ == "__main__":
     run_daily()

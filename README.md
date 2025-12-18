@@ -102,6 +102,38 @@ RANK | SYMBOL        | CONFIDENCE | PATTERN               | RULE_SCORE | FINANCI
 
 ---
 
+## 🔔 WhatsApp Notifications
+
+The system is integrated with **GreenAPI** (WhatsApp API) to send daily results directly to your phone.
+
+### 1. Prerequisites (GreenAPI)
+1.  **Sign up:** Create a free developer account at [GreenAPI](https://green-api.com/en).
+2.  **Create Instance:** Create a developer instance to get your `INSTANCE_ID` and `API_TOKEN`.
+3.  **Link Device:** Scan the QR code with your WhatsApp to link the instance.
+
+### 2. Local Setup (.env)
+To test notifications locally, create a `.env` file in the root directory:
+
+```env
+GREENAPI_INSTANCE_ID="your_instance_id"
+GREENAPI_API_TOKEN="your_api_token"
+GREENAPI_TARGET_PHONE="target_phone_number_with_country_code" # e.g. 919876543210
+GREENAPI_HOST="7105.api.greenapi.com" # Check your instance host
+```
+*(The system uses `python-dotenv` to load these automatically.)*
+
+### 3. Automated Setup (GitHub Actions)
+For the daily cloud scan to work:
+1.  Go to your GitHub Repo -> **Settings**.
+2.  **Secrets and variables** -> **Actions**.
+3.  Add the following **Repository Secrets**:
+    *   `GREENAPI_INSTANCE_ID`
+    *   `GREENAPI_API_TOKEN`
+    *   `GREENAPI_TARGET_PHONE`
+    *   `GREENAPI_HOST`
+
+---
+
 ## ⚠️ Disclaimer
 
 This project is built for **educational and research purposes only**.  

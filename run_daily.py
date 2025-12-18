@@ -8,9 +8,47 @@ from ranking.rank_today import rank_today
 os.makedirs("output", exist_ok=True)
 
 def run_daily():
-    today = datetime.now().strftime("%Y-%m-%d")
+    today_date = datetime.now()
+    print(f"\nRunning daily scan for {today_date.strftime('%Y-%m-%d')}\n")
 
-    print(f"\nRunning daily scan for {today}\n")
+    # --- HOLIDAY LOGIC START ---
+    # User Rule: "dont want it to run if the next day the market is closed"
+    import calendar
+    from datetime import timedelta
+    
+    next_day = today_date + timedelta(days=1)
+    weekday = next_day.weekday() # 0=Mon, ... 5=Sat, 6=Sun
+
+    # 1. Weekend Check (If next day is Sat or Sun, skip)
+    if weekday >= 5:
+        print(f"Skipping: Next day ({next_day.strftime('%A')}) is a weekend.")
+        return
+
+    # 2. NSE Holidays 2025 (Hardcoded for reliability)
+    # Format: YYYY-MM-DD
+    nse_holidays_2025 = [
+        "2025-01-26", # Republic Day
+        "2025-02-26", # Mahashivratri
+        "2025-03-14", # Holi
+        "2025-03-31", # Eid-ul-Fitr
+        "2025-04-10", # Mahavir Jayanti
+        "2025-04-14", # Good Friday / Ambedkar Jayanti
+        "2025-05-12", # Buddha Purnima
+        "2025-06-07", # Bakri Id
+        "2025-08-15", # Independence Day
+        "2025-08-27", # Ganesh Chaturthi
+        "2025-10-02", # Gandhi Jayanti
+        "2025-10-21", # Diwali (Laxmi Pujan)
+        "2025-10-22", # Diwali (Balipratipada)
+        "2025-11-05", # Guru Nanak Jayanti
+        "2025-12-25", # Christmas
+    ]
+    
+    next_day_str = next_day.strftime("%Y-%m-%d")
+    if next_day_str in nse_holidays_2025:
+        print(f"Skipping: Next day ({next_day_str}) is a Market Holiday.")
+        return
+    # --- HOLIDAY LOGIC END ---
 
     df = rank_today("universe/smallcap_250.csv", top_n=5)
 

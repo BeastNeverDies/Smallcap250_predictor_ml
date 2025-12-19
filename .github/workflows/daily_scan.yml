@@ -2,8 +2,8 @@ name: Daily Stock Scan
 
 on:
   schedule:
-    # 10:05 UTC = 3:35 PM IST
-    - cron: '5 10 * * *'
+    # 10:00 UTC = 3:30 PM IST
+    - cron: '0 10 * * *'
   workflow_dispatch:
 
 jobs:

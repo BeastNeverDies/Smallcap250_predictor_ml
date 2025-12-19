@@ -21,9 +21,14 @@ def run_daily():
     weekday = next_day.weekday() # 0=Mon, ... 5=Sat, 6=Sun
 
     # 1. Weekend Check (If next day is Sat or Sun, skip)
-    if weekday >= 5:
+    # Exception: Always run if triggered manually
+    is_manual_run = (os.environ.get("RUN_TYPE") == "workflow_dispatch")
+    
+    if weekday >= 5 and not is_manual_run:
         print(f"Skipping: Next day ({next_day.strftime('%A')}) is a weekend.")
         return
+    elif weekday >= 5 and is_manual_run:
+        print(f"Manual Run detected: Ignoring weekend check (Next day is {next_day.strftime('%A')}).")
 
     # 2. NSE Holidays 2025 (Hardcoded for reliability)
     # Format: YYYY-MM-DD
@@ -46,9 +51,11 @@ def run_daily():
     ]
     
     next_day_str = next_day.strftime("%Y-%m-%d")
-    if next_day_str in nse_holidays_2025:
+    if next_day_str in nse_holidays_2025 and not is_manual_run:
         print(f"Skipping: Next day ({next_day_str}) is a Market Holiday.")
         return
+    elif next_day_str in nse_holidays_2025 and is_manual_run:
+         print(f"Manual Run detected: Ignoring holiday check ({next_day_str}).")
     # --- HOLIDAY LOGIC END ---
 
     df = rank_today("universe/smallcap_250.csv", top_n=5)

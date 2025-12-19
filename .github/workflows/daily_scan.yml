@@ -32,5 +32,6 @@ jobs:
         GREENAPI_API_TOKEN: "f103711705aa4a6d9dba3ba0152191c4f2a80bd818b44bc39d"
         GREENAPI_TARGET_PHONE: "919535957218"
         GREENAPI_HOST: "7105.api.greenapi.com"
+        RUN_TYPE: ${{ github.event_name }}
       run: |
         python run_daily.py

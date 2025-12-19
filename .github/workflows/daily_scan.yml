@@ -2,8 +2,8 @@ name: Daily Stock Scan
 
 on:
   schedule:
-    # 10:40 UTC = 4:10 PM IST
-    - cron: '40 10 * * *'
+    # 10:50 UTC = 4:20 PM IST
+    - cron: '50 10 * * *'
   workflow_dispatch:
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
         # WARNING: Passwords are visible in this file. Keep this repository PRIVATE.
         GREENAPI_INSTANCE_ID: "7105430425"
         GREENAPI_API_TOKEN: "f103711705aa4a6d9dba3ba0152191c4f2a80bd818b44bc39d"
-        GREENAPI_TARGET_PHONE: "9535957218"
+        GREENAPI_TARGET_PHONE: "919535957218"
         GREENAPI_HOST: "7105.api.greenapi.com"
       run: |
         python run_daily.py

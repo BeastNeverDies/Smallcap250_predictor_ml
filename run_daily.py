@@ -9,7 +9,8 @@ os.makedirs("output", exist_ok=True)
 
 def run_daily():
     today_date = datetime.now()
-    print(f"\nRunning daily scan for {today_date.strftime('%Y-%m-%d')}\n")
+    today = today_date.strftime("%Y-%m-%d")
+    print(f"\nRunning daily scan for {today}\n")
 
     # --- HOLIDAY LOGIC START ---
     # User Rule: "dont want it to run if the next day the market is closed"
